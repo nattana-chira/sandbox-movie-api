@@ -1,3 +1,5 @@
+import { MovieData } from "./movie-api.type";
+
 export class MovieDto {
   id: number;
   title: string;
@@ -7,7 +9,7 @@ export class MovieDto {
   backdropUrl: string;
   voteAverage: number;
 
-  constructor(movie: any) {
+  constructor(movie: MovieData) {
     this.id = movie.id;
     this.title = movie.title;
     this.overview = movie.overview;
@@ -15,5 +17,9 @@ export class MovieDto {
     this.posterUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
     this.backdropUrl = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
     this.voteAverage = movie.vote_average;
+  }
+
+  public static fromArray(movies: MovieData[]) {
+    return movies.map(movie => new MovieDto(movie))
   }
 }
