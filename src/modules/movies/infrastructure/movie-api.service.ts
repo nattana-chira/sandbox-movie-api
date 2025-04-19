@@ -6,7 +6,10 @@ import { mockMovieDetails } from './movie-api.mock';
 import { MovieRepository } from '../domain/movie-repository'
 import { Movie } from '../domain/entity/Movie';
 import { Paginated } from 'src/modules/common/domain/paginated.entity';
-import { MovieDto } from './movie.dto.';
+import { MovieDto } from './dto/movie.dto';
+import { MovieDetails } from '../domain/entity/MovieDetail';
+import { MovieNotFoundException } from './exception/movie-not-found.exception';
+import { MovieDetailDto } from './dto/movie-detail.dto';
 
 @Injectable()
 export class MovieApiService implements MovieRepository {
@@ -19,7 +22,7 @@ export class MovieApiService implements MovieRepository {
     this.apiKey = config.apiKey;
   }
 
-  async getPopular(): Promise<Paginated<Movie>> {
+  async getMovies(): Promise<Paginated<Movie>> {
     const response = await axios.get<MovieApiGetPopularResponse>(this.apiUrl + '/discover/movie', {
       headers: {
         'Authorization': `Bearer ${this.apiKey}`
@@ -35,22 +38,35 @@ export class MovieApiService implements MovieRepository {
 
     return {
       page: response.data.page,
-      results: MovieDto.fromArray(response.data.results),
+      results: MovieDto.toEntityArray(response.data.results),
       totalPages: response.data.total_pages,
       totalResults: response.data.total_results
     }
   }
 
-  // async fetchMovieDetails(movieId: string): Promise<MovieDetailsResponse> {
-  //   const response = await axios.get<MovieDetailsResponse>(this.apiUrl + `/movie/${movieId}`, {
-  //     headers: {
-  //       'Authorization': `Bearer ${this.apiKey}`
-  //     },
-  //     params: {
-  //       language: 'en-US',
-  //     }
-  //   });
-
-  //   return response.data;
-  // }
+  async getDetails(id: string): Promise<MovieDetails> {
+    try {
+      const response = await axios.get<MovieDetailsResponse>(this.apiUrl + `/movie/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`
+        },
+        params: {
+          language: 'en-US',
+        }
+      });
+      const dto = new MovieDetailDto(response.data)
+  
+      return {
+        ...mockMovieDetails,
+        id: dto.id,
+        title: dto.title,
+        overview: dto.overview,
+        posterUrl: dto.posterUrl,
+        backdropUrl: dto.backdropUrl,
+        genres: dto.genres
+      }
+    } catch (e) {
+      throw new MovieNotFoundException(id)
+    }
+  }
 }

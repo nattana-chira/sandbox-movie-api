@@ -9,7 +9,12 @@ export class MovieUseCase {
   ) {}
 
   async getMovies() {
-    const data = await this.movieRepo.getPopular();
+    const data = await this.movieRepo.getMovies();
     return data.results;
+  }
+
+  async getDetails(id: string) {
+    const data = await this.movieRepo.getDetails(id);
+    return data;
   }
 }

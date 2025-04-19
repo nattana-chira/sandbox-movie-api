@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { MovieUseCase } from '../application/movie.use-case';
 
 @Controller('movies')
@@ -7,6 +7,11 @@ export class MovieController {
 
   @Get()
   async getMovies() {
-    return this.movieUseCase.getMovies();
+    return await this.movieUseCase.getMovies();
+  }
+
+  @Get(':id')
+  async getMovieDetails(@Param('id') id: string) {
+    return await this.movieUseCase.getDetails(id);
   }
 }
