@@ -1,98 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Getting Started
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A sandbox project that clone Netflix homepage using **NestJs** as backend API.  
+Live demo: [https://sandbox-movie-api.onrender.com/movies](https://sandbox-movie-api.onrender.com/movies)  
+  
+** Sometimes, **Movie API is shut down due to inactivity**.  
+** If webpage take too long to response, **wait for a minute and try refresh the page** again.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+For development, you need API key from this source [https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api) in .env file.  
 
-## Description
+## 📦 Installation
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
+First, copy .env file:
 ```bash
-$ npm install
+cp .env.example .env
 ```
 
-## Compile and run the project
+Then install dependenceis:
+```bash
+npm install
+```
+
+Finally, run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+# or
+bun dev
+```
+
+If you wanna compile and run the project in Production:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
+$ npm run build
 $ npm run start:prod
 ```
 
-## Run tests
+Open [http://localhost:5000/movies](http://localhost:5000/movies) with your browser to see the result.  
 
+## 🛠️ Tech Stack
+  
+- **TypeScript**  
+- **NestJs**   
+- **Axios**  
+- **Clean Architecture**  
+  
+## 🚀 Features
+
+- Movie API (get popular movies, get movie details)  
+  
+## 📁 Project Structure
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+project/
+├── src/                                 # Source code
+│   ├── libs/                            
+│   │   └── error-handler.ts             # NextJS global error handler
+│   ├── modules/                         # Group feature module by functionality
+│   │   └── common                       # For code logic shared across all modules
+│   │   │   └── ...                      
+│   │   └── movie                        # All code related to Movie module
+│   │       ├── application/             # Application layer contain movie use cases and how they are handled
+│   │       │   └── movie.use-case.ts    
+│   │       ├── domain/                  # Domain layer contain movie related entities and interface for movie use cases
+│   │       │   ├── entity/
+│   │       │   └── movie.repository.ts    
+│   │       ├── infrastructure/          # Infrastructure layer implment domain interface and act like a service to perform anything outside the app (API calls etc.)
+│   │       │   ├── movie-api-service.ts
+│   │       │   └── ...    
+│   │       ├── presentation/            # Presentation layer is any entry points controller or route
+│   │       │   └── move.controller.ts
+│   │       └── movie.module.ts          # Handle dependency injections
+│   ├── app.module.ts                    # NestJS main module
+│   ├── config.ts                        # Constant variable (env)
+│   └── main.ts                          # App boostraper
+├── .env.example                         # Example of .env file
+...
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
