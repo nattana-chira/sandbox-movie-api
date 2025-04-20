@@ -6,6 +6,8 @@ Live demo: [https://sandbox-movie-api.onrender.com/movies](https://sandbox-movie
 ** Sometimes, **Movie API is shut down due to inactivity**.  
 ** If webpage take too long to response, **wait for a minute and try refresh the page** again.
 
+For development, you need API key from this source [https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api) in .env file.  
+
 ## 📦 Installation
 
 First, copy .env file:
