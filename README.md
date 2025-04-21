@@ -2,6 +2,9 @@
 
 A sandbox project that clone Netflix homepage using **NestJs** as backend API.  
 Live demo: [https://sandbox-movie-api.onrender.com/movies](https://sandbox-movie-api.onrender.com/movies)  
+
+Live demo (Docker version): [https://sandbox-movie-api-docker.onrender.com/movies](https://sandbox-movie-api-docker.onrender.com/movies)
+** Dockerfile in **feature/docker**
   
 ** Sometimes, **Movie API is shut down due to inactivity**.  
 ** If webpage take too long to response, **wait for a minute and try refresh the page** again.
